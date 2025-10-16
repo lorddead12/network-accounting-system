@@ -5,6 +5,12 @@ import java.util.Optional;
 
 public enum UserChoice {
     ADD_NETWORK(1, "Add Network"),
+    DELETE_NETWORK(2, "Delete Network"),
+    UPDATE_NETWORK(3, "Update Network"),
+    ADD_DEVICE(4, "Add Device"),
+    DELETE_DEVICE(5, "Delete Device"),
+    UPDATE_DEVICE(6, "Update device"),
+    ADD_CONNECTION(7, "Add connection"),
     EXIT (10, "Exit");
 
     private final int code;
