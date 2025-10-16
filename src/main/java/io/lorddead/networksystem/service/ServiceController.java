@@ -156,7 +156,43 @@ public class ServiceController {
                 connection.setDeviceToId(deviceTo.getId());
 
                 dao.save(connection);
+                view.showDisplayInfo("\nWas added new connection.");
                 view.showDisplayObjectFromDatabase(connection);
+            }
+
+            case DELETE_CONNECTION -> {
+                Dao<Connection> dao = ConnectionDao.getInstance();
+                List<Connection> connections = dao.getAllModels();
+                Connection connectionToDelete = view.selectOf(connections, "connection");
+
+                dao.delete(connectionToDelete);
+                view.showDisplayInfo("\nWas deleted device.");
+                view.showDisplayObjectFromDatabase(connectionToDelete);
+            }
+
+            case UPDATE_CONNECTION -> {
+                Dao<Connection> dao = ConnectionDao.getInstance();
+                List<Connection> connections = dao.getAllModels();
+                Connection connectionToUpdate = view.selectOf(connections, "connection to update");
+
+                List<Device> devices = DeviceDao.getInstance().getAllModels();
+                Device deviceFromId = view.selectOf(devices, "device from");
+
+                List<Device> remainedDevices = devices.stream()
+                        .filter(device -> !device.equals(deviceFromId))
+                        .toList();
+
+                Device deviceToId = view.selectOf(remainedDevices, "device to");
+                Connection updatedConnection = view.getConnectionFromUser();
+
+                connectionToUpdate.setDeviceFromId(deviceFromId.getId());
+                connectionToUpdate.setDeviceToId(deviceToId.getId());
+                connectionToUpdate.setConnectionType(updatedConnection.getConnectionType());
+                connectionToUpdate.setStatus(updatedConnection.getStatus());
+
+                dao.update(connectionToUpdate);
+                view.showDisplayInfo("\nWas update connection.");
+                view.showDisplayObjectFromDatabase(connectionToUpdate);
             }
 
             default -> throw new RuntimeException("Unsupported operation: " + userChoice);

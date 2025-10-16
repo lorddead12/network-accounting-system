@@ -2,12 +2,12 @@ package io.lorddead.networksystem.model;
 
 import java.time.LocalDateTime;
 
-public class Connection {
+public class Connection implements Model {
     private long id;
     private long deviceFromId;
     private long deviceToId;
-    private final String connectionType;
-    private final String status;
+    private String connectionType;
+    private String status;
     private LocalDateTime createdAt;
 
     public Connection(ConnectionBuilder builder) {
@@ -62,6 +62,7 @@ public class Connection {
         }
     }
 
+    @Override
     public long getId() {
         return id;
     }
@@ -100,6 +101,14 @@ public class Connection {
 
     public void setDeviceToId(long deviceToId) {
         this.deviceToId = deviceToId;
+    }
+
+    public void setConnectionType(String connectionType) {
+        this.connectionType = connectionType;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
